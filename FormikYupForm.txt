@@ -1,0 +1,144 @@
+import React from 'react';
+import './App.css';
+import ValidateLoginForm from './ValidateLoginForm';
+
+function App() {
+
+  return (
+    <div className='App'>
+      <ValidateLoginForm/>
+    </div>
+  )
+}
+
+export default App;
+############################################
+
+import React from 'react'
+import {Formik, setNestedObjectValues} from 'formik'
+import * as Yup from 'yup'
+import './App.css'
+
+const ValidateLoginForm =() => (
+
+        <Formik
+            initialValues = {{email :'', password :''}}
+            onSubmit={(values, {setSubmitting}) => {
+                setTimeout(() => {
+                    console.log('Loading form', values)
+                },400)
+            }}
+            //here we will validate using yup
+            validationSchema = {Yup.object().shape({
+                email: Yup.string()
+                      .email()
+                      .required("Email is required"),
+                
+                password: Yup.string()
+                          .required('Password is required')
+                          .min(8,'Password must have length of 8')
+                          
+                })}      
+            
+        >
+            {props => {
+                const {
+                    values,
+                    touched,
+                    errors,
+                    isSubmitting,
+                    handleChange,
+                    handleblur,
+                    handleSubmit,
+
+                } = props;
+
+                return(
+                    <form onSubmit ={handleSubmit} autoComplete='off'>
+
+                        <label htmlFor='email'>Email </label>
+                        <input type='text' 
+                            name = 'email' 
+                            placeholder='Enter email' 
+                            value ={values.email}
+                            onChange= {handleChange}
+                            onBlur={handleblur}
+                            className={errors.email && touched.email && 'error'}
+                            
+                        />
+
+                        {errors.email &&  touched.email && (
+                            <div className = 'input-feedback'>{errors.email}</div>
+                        )}
+
+                        <label htmlFor='password'>Password </label>
+                        <input type='password' 
+                            name = 'password' 
+                            placeholder='Enter password' 
+                            value ={values.password}
+                            onChange= {handleChange}
+                            onBlur={handleblur}
+                            className={errors.password && touched.password && 'error'}
+                        />
+
+                        {errors.password && touched.password && (
+                            <div className = 'input-feedback'>{errors.password}</div>
+                        )}
+
+                        <button type ='submit' disabled={isSubmitting}>Submit </button>
+                    </form>    
+                )
+            }}
+        </Formik>
+)
+export default ValidateLoginForm
+####################################################
+
+.App{
+    font-family: sans-serif;
+}
+h1{
+    text-align: center;
+}
+
+form{
+    max-width: 500px;
+    width:100%;
+    margin:0 auto;
+}
+
+label, input{
+    display: block;
+    width:100%;
+}
+
+label{
+    margin-bottom: 5px;
+    height:22px;
+}
+
+input{
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 3px;
+    border:1px solid #777;
+}
+
+input.error{
+    border-color: red;
+}
+
+.input-feedback{
+    color:rgb(235, 54, 54);
+    margin-top: -15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+button{
+    padding: 10px 15px;
+    background-color: rgb(70,153,179);
+    color:white;
+    border : 1px soild rgb(70, 153, 179);
+    background-color: 250ms;
+}
