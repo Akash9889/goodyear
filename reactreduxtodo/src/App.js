@@ -7,8 +7,8 @@ function App() {
   return (
     <div>
       <AddTodo/>
-      <VisibleTodoList/>
-      <Footer/>
+      {/* <VisibleTodoList/>
+      <Footer/> */}
     </div>
   );
 }
